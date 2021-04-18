@@ -1,4 +1,4 @@
-from Avito.celery import app
+from .celery import my_celery
 import requests
 #import cfscrape
 from bs4 import BeautifulSoup as bs
@@ -31,7 +31,7 @@ def get_html(region: str, query: str) -> int:
 		count = div_class.find('span', class_='page-title-count-1oJOc')
 		return int(count.string.replace(' ', ''))
 
-@app.task
+@my_celery.task
 def counter():
 	for i in Query.objects.all():
 		count = get_html(i.region, i.search_query)
